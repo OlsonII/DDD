@@ -13,7 +13,10 @@ namespace Infrastructure.Base
         private IDbContext _dbContext;
 
         private ICuentaBancariaRepository _cuentaBancariaRepository;
+
+        private IServicioInversionRepository _cdtRepository;
         public ICuentaBancariaRepository CuentaBancariaRepository { get { return _cuentaBancariaRepository ?? (_cuentaBancariaRepository = new CuentaBancariaRepository(_dbContext)); } }
+        public IServicioInversionRepository CDTRepository { get { return _cdtRepository ?? (_cdtRepository = new DepositoRepository(_dbContext)); } }
 
 
         public UnitOfWork(IDbContext context)

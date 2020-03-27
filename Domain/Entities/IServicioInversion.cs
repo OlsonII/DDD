@@ -4,16 +4,14 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public interface IServicioFinanciero
+    interface IServicioInversion
     {
-
         string Nombre { get; set; }
         string Numero { get; set; }
         double Saldo { get; }
 
+        void Depositar(double valor);
         void Retirar(double valor);
-        void Consignar(double valor, string ciudad);
-        void Trasladar(IServicioFinanciero servicioFinanciero, double valor, string ciudad);
-
+        
     }
 }

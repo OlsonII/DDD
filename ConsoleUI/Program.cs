@@ -22,6 +22,7 @@ namespace ConsoleUI
             
             CrearCuentaBancaria(context);
             ConsignarCuentaBancaria(context);
+            RetirarCuentaBancaria(context);
         }
 
         private static void ConsignarCuentaBancaria(BancoContext context)
@@ -32,6 +33,19 @@ namespace ConsoleUI
             var request = new ConsignarRequest() { NumeroCuenta = "524255", Valor = 1000 };
 
             ConsignarResponse response = _service.Ejecutar(request);
+
+            System.Console.WriteLine(response.Mensaje);
+            #endregion
+            System.Console.ReadKey();
+        }
+
+        private static void RetirarCuentaBancaria(BancoContext context)
+        {
+            #region Retirar
+            RetirarService _service = new RetirarService(new UnitOfWork(context));
+            var request = new RetirarRequest() { NumeroCuenta = "524255", Valor = 1000 };
+
+            RetirarResponse response = _service.Ejecutar(request);
 
             System.Console.WriteLine(response.Mensaje);
             #endregion

@@ -7,17 +7,21 @@ namespace Domain.Entities
 {
     public abstract class CuentaBancaria : Entity<int>, IServicioFinanciero
     {
-        public CuentaBancaria()
-        {
-            Movimientos = new List<MovimientoFinanciero>();
-        }
-
-        public List<MovimientoFinanciero> Movimientos { get; set; }
         public string Nombre { get; set; }
         public string Numero { get; set; }
         public double Saldo { get; protected set; }
-        public virtual void Consignar(double valor)
+        public string Ciudad { get; set; }
+
+
+        public List<MovimientoFinanciero> Movimientos { get; set; }
+
+        public CuentaBancaria()
         {
+            Movimientos = new List<MovimientoFinanciero>();            
+        }        
+        
+        public virtual void Consignar(double valor, string ciudad)
+        {            
             MovimientoFinanciero movimiento = new MovimientoFinanciero();
             movimiento.ValorConsignacion = valor;
             movimiento.FechaMovimiento = DateTime.Now;
@@ -32,10 +36,10 @@ namespace Domain.Entities
             return ($"Su saldo disponible es {Saldo}.");
         }
 
-        public void Trasladar(IServicioFinanciero servicioFinanciero, double valor)
+        public void Trasladar(IServicioFinanciero servicioFinanciero, double valor, string ciudad)
         {
             Retirar(valor);
-            servicioFinanciero.Consignar(valor);
+            servicioFinanciero.Consignar(valor, ciudad);
         }
     }
 }

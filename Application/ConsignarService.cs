@@ -18,9 +18,9 @@ namespace Application
             var cuenta = _unitOfWork.CuentaBancariaRepository.FindFirstOrDefault(t => t.Numero==request.NumeroCuenta);
             if (cuenta != null)
             {
-                cuenta.Consignar(request.Valor);
+                cuenta.Consignar(request.Valor, request.ciudad);
                 _unitOfWork.Commit();
-                return new ConsignarResponse() { Mensaje = $"Su Nuevo saldo es {cuenta.Saldo}." };
+                return new ConsignarResponse() { Mensaje = $"Su Nuevo saldo es {cuenta.Saldo}."};
             }
             else
             {
@@ -31,6 +31,7 @@ namespace Application
     public class ConsignarRequest
     {
         public string NumeroCuenta { get; set; }
+        public string ciudad { get; set; }
         public double Valor { get; set; }
     }
     public class ConsignarResponse
