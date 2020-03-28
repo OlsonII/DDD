@@ -20,16 +20,16 @@ namespace Domain.Entities
             Movimientos = new List<MovimientoFinanciero>();
         }
 
-        public virtual void Consignar(double valor, string ciudad)
+        public virtual void Consignar(Transaccion transaccion)
         {
             MovimientoFinanciero deposito = new MovimientoFinanciero();
-            deposito.ValorConsignacion = valor;
+            deposito.ValorConsignacion = transaccion.Valor;
             deposito.FechaMovimiento = DateTime.Now;
-            Saldo += valor;
+            Saldo += transaccion.Valor;
             Movimientos.Add(deposito);
         }
-        public abstract void Retirar(double valor);
+        public abstract void Retirar(Transaccion transaccion);
 
-        public abstract void Trasladar(IServicioFinanciero servicioFinanciero, double valor, string ciudad);
+        public abstract void Trasladar(IServicioFinanciero servicioFinanciero, Transaccion transaccion);
     }
 }

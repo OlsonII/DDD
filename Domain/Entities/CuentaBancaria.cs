@@ -12,7 +12,6 @@ namespace Domain.Entities
         public double Saldo { get; protected set; }
         public string Ciudad { get; set; }
 
-
         public List<MovimientoFinanciero> Movimientos { get; set; }
 
         public CuentaBancaria()
@@ -20,26 +19,26 @@ namespace Domain.Entities
             Movimientos = new List<MovimientoFinanciero>();            
         }        
         
-        public virtual void Consignar(double valor, string ciudad)
+        public virtual void Consignar(Transaccion transaccion)
         {            
             MovimientoFinanciero movimiento = new MovimientoFinanciero();
-            movimiento.ValorConsignacion = valor;
+            movimiento.ValorConsignacion = transaccion.Valor;
             movimiento.FechaMovimiento = DateTime.Now;
-            Saldo += valor;
+            Saldo += transaccion.Valor;
             Movimientos.Add(movimiento);
         }
         
-        public abstract void Retirar(double valor);
+        public abstract void Retirar(Transaccion transaccion);
 
         public override string ToString()
         {
             return ($"Su saldo disponible es {Saldo}.");
         }
 
-        public void Trasladar(IServicioFinanciero servicioFinanciero, double valor, string ciudad)
+        public void Trasladar(IServicioFinanciero servicioFinanciero, Transaccion transaccion)
         {
-            Retirar(valor);
-            servicioFinanciero.Consignar(valor, ciudad);
+            Retirar(transaccion);
+            servicioFinanciero.Consignar(transaccion);
         }
     }
 }

@@ -6,27 +6,27 @@ namespace Domain.Entities
 {
     public class CuentaCorriente : CuentaBancaria
     {
-        public const double SOBREGIRO = -1000;        
+        public const double SOBREGIRO = -100000;        
 
-        public override void Consignar(double valor, string ciudad)
+        public override void Consignar(Transaccion transaccion)
         {
-            if (VerificarPrimeraConsignacion() && valor >= 100000)
+            if (VerificarPrimeraConsignacion() && transaccion.Valor >= 100000)
             {
-                base.Consignar(valor, ciudad);
+                base.Consignar(transaccion);
             }
             else if(!VerificarPrimeraConsignacion())
             {
-                base.Consignar(valor, ciudad);
+                base.Consignar(transaccion);
             }
         }
 
-        public override void Retirar(double valor)
+        public override void Retirar(Transaccion transaccion)
         {
-            double nuevoSaldo = Saldo - AplicarImpuesto(valor);
+            double nuevoSaldo = Saldo - AplicarImpuesto(transaccion.Valor);
             if (nuevoSaldo >= SOBREGIRO)
             {
                 MovimientoFinanciero movimiento = new MovimientoFinanciero();
-                movimiento.ValorRetiro = AplicarImpuesto(valor);
+                movimiento.ValorRetiro = AplicarImpuesto(transaccion.Valor);
                 movimiento.FechaMovimiento = DateTime.Now;
                 Saldo = nuevoSaldo;
                 this.Movimientos.Add(movimiento);

@@ -15,30 +15,18 @@ namespace Application
         {
             _unitOfWork = unitOfWork;
         }
+
         public CrearCuentaBancariaResponse Ejecutar(CrearCuentaBancariaRequest request)
         {
             CuentaBancaria cuentaNueva = null;
-            string tipoCuentaCreado = "";
             CuentaBancaria cuenta = _unitOfWork.CuentaBancariaRepository.FindFirstOrDefault(t => t.Numero==request.Numero);
             if (cuenta == null)
             {
-                switch (request.TipoCuenta)
-                {
-                    case "Ahorro":
-                        cuentaNueva = new CuentaBancariaFactory().Create(request.TipoCuenta); //Debe ir un factory que determine que tipo de cuenta se va a crear
-                        cuentaNueva.Nombre = request.Nombre;
-                        cuentaNueva.Numero = request.Numero;
-                        _unitOfWork.CuentaBancariaRepository.Add(cuentaNueva);
-                        _unitOfWork.Commit();
-                        break;
-                    case "Corriente":
-                        cuentaNueva = new CuentaBancariaFactory().Create(request.TipoCuenta); //Debe ir un factory que determine que tipo de cuenta se va a crear
-                        cuentaNueva.Nombre = request.Nombre;
-                        cuentaNueva.Numero = request.Numero;
-                        _unitOfWork.CuentaBancariaRepository.Add(cuentaNueva);
-                        _unitOfWork.Commit();
-                        break;
-                }                
+                cuentaNueva = new CuentaBancariaFactory().Create(request.TipoCuenta);
+                cuentaNueva.Nombre = request.Nombre;
+                cuentaNueva.Numero = request.Numero;
+                _unitOfWork.CuentaBancariaRepository.Add(cuentaNueva);
+                _unitOfWork.Commit();
                 return new CrearCuentaBancariaResponse() { Mensaje = $"Se creó con exito la cuenta {cuentaNueva.Numero}.", TipoDeCuentaCreado = request.TipoCuenta };
             }
             else
@@ -46,9 +34,6 @@ namespace Application
                 return new CrearCuentaBancariaResponse() { Mensaje = $"El número de cuenta ya exite" };
             }
         }
-
-
-
     }
     public class CrearCuentaBancariaRequest
     {

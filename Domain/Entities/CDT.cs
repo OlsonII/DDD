@@ -10,29 +10,29 @@ namespace Domain.Entities
 
         private const double MINIMODEPOSITO = 1000000;
         
-        public override void Consignar(double valor, string ciudad)
+        public override void Consignar(Transaccion transaccion)
         {
-            if(valor >= MINIMODEPOSITO && Saldo == 0)
+            if(transaccion.Valor >= MINIMODEPOSITO && Saldo == 0)
             {
-                base.Consignar(valor, ciudad);
+                base.Consignar(transaccion);
             }
         }
 
-        public override void Trasladar(IServicioFinanciero servicioFinanciero, double valor, string ciudad)
+        public override void Trasladar(IServicioFinanciero servicioFinanciero, Transaccion transaccion)
         {
             if (VerificarPeriodo() && Saldo > 0)
             {
-                Retirar(valor);
-                servicioFinanciero.Consignar(valor, ciudad);
+                Retirar(transaccion);
+                servicioFinanciero.Consignar(transaccion);
             }                
         }
 
-        public override void Retirar(double valor)
+        public override void Retirar(Transaccion transaccion)
         {
             if (VerificarPeriodo() && Saldo > 0)
             {
                 MovimientoFinanciero retiro = new MovimientoFinanciero();
-                retiro.ValorRetiro = valor += valor*TasaInteres;
+                retiro.ValorRetiro = transaccion.Valor + (transaccion.Valor*TasaInteres);
                 retiro.FechaMovimiento = DateTime.Now;
                 Saldo = 0;
                 Movimientos.Add(retiro);

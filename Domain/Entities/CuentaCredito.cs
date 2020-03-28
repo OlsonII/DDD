@@ -12,21 +12,21 @@ namespace Domain.Entities
             Saldo = 1000000; 
         }       
 
-        public override void Consignar(double valor, string ciudad)
+        public override void Consignar(Transaccion transaccion)
         {
-            if(valor > 0 && valor <= Deuda)
+            if(transaccion.Valor > 0 && transaccion.Valor <= Deuda)
             {
-                Deuda -= valor;
-                base.Consignar(valor, ciudad);
+                Deuda -= transaccion.Valor;
+                base.Consignar(transaccion);
             }            
         }
 
-        public override void Retirar(double valor)
+        public override void Retirar(Transaccion transaccion)
         {
-            if(valor > 0 && valor <= Saldo)
+            if(transaccion.Valor > 0 && transaccion.Valor <= Saldo)
             {
-                Deuda += valor;
-                Saldo -= valor;
+                Deuda += transaccion.Valor;
+                Saldo -= transaccion.Valor;
             }    
         }
     }

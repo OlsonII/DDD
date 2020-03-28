@@ -1,25 +1,26 @@
 ﻿using Domain.Contracts;
+using Domain.Entities; //Verificar si Transaccion esta ubicada correctamente
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Application
 {
-    class DepositarInversionService
+    class ConsignarDepositoService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public DepositarInversionService(IUnitOfWork unitOfWork)
+        public ConsignarDepositoService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public DepositarResponse Ejecutar(DepositarRequest request)
         {
-            var CDT = _unitOfWork.CDTRepository.FindFirstOrDefault(t => t.Numero == request.NumeroCDT);
+            var CDT = _unitOfWork.DepositoRepository.FindFirstOrDefault(t => t.Numero == request.NumeroDeDeposito);
             if(CDT != null)
             {
-                CDT.Consignar(request.Valor, request.Ciudad);
+                CDT.Consignar(new Transaccion(request.Valor, request.Ciudad));
                 _unitOfWork.Commit();
                 return new DepositarResponse() { Mensaje = $"Su deposito es de ${CDT.Saldo}." };
             }
@@ -35,7 +36,7 @@ namespace Application
 
     public class DepositarRequest 
     {
-        public string NumeroCDT { get; set; }
+        public string NumeroDeDeposito { get; set; }
         public double Valor { get; set; }
 
         public string Ciudad { get; set; }

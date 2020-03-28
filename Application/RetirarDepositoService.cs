@@ -1,25 +1,26 @@
 ﻿using Domain.Contracts;
+using Domain.Entities; //Verificar lo mismo
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Application
 {
-    public class RetirarInversionService
+    public class RetirarDepositoService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public RetirarInversionService(IUnitOfWork unitOfWork)
+        public RetirarDepositoService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public RetirarCDTResponse Ejecutar(RetirarCDTRequest request)
         {
-            var CDT = _unitOfWork.CDTRepository.FindFirstOrDefault(t => t.Numero == request.NumeroCDT);
+            var CDT = _unitOfWork.DepositoRepository.FindFirstOrDefault(t => t.Numero == request.NumeroCDT);
             if (CDT != null)
             {
-                CDT.Retirar(request.Valor);
+                CDT.Retirar(new Transaccion(request.Valor));
                 _unitOfWork.Commit();
                 return new RetirarCDTResponse() { Mensaje = $"Su deposito es de ${CDT.Saldo}." };
             }

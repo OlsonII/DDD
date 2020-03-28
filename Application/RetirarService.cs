@@ -1,4 +1,5 @@
 ﻿using Domain.Contracts;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Application
             var cuenta = _unitOfWork.CuentaBancariaRepository.FindFirstOrDefault(t => t.Numero == request.NumeroCuenta);
             if (cuenta != null)
             {
-                cuenta.Retirar(request.Valor);
+                cuenta.Retirar(new Transaccion(request.Valor));
                 _unitOfWork.Commit();
                 return new RetirarResponse() { Mensaje = $"Su Nuevo saldo es {cuenta.Saldo}." };
             }

@@ -9,29 +9,29 @@ namespace Domain.Entities
         private const double _TOPERETIRO = 20000;
         private const double _COSTORETIRO = 5000;
 
-        public override void Consignar(double valor, string ciudad)
+        public override void Consignar(Transaccion transaccion)
         {
-            if (VerificarPrimeraConsignacion() && valor >= 50000)
+            if (VerificarPrimeraConsignacion() && transaccion.Valor >= 50000)
             {
-                base.Consignar(valor, ciudad);
+                base.Consignar(transaccion);
             }
-            else if(!VerificarPrimeraConsignacion() && valor >= 0)
+            else if(!VerificarPrimeraConsignacion() && transaccion.Valor >= 0)
             {
-                if (!Ciudad.Equals(ciudad)) valor -= 10000;
-                base.Consignar(valor, ciudad);
+                if (!Ciudad.Equals(transaccion.Ciudad)) transaccion.Valor -= 10000;
+                base.Consignar(transaccion);
             }
         }
 
-        public override void Retirar(double valor)
+        public override void Retirar(Transaccion transaccion)
         {
-            if (!ValidarRetirosDelMes()) valor += _COSTORETIRO;
-            double nuevoSaldo = Saldo - valor;
+            if (!ValidarRetirosDelMes()) transaccion.Valor += _COSTORETIRO;
+            double nuevoSaldo = Saldo - transaccion.Valor;
             if (nuevoSaldo >= _TOPERETIRO)
             {                
                 MovimientoFinanciero retiro = new MovimientoFinanciero();
-                retiro.ValorRetiro = valor;
+                retiro.ValorRetiro = transaccion.Valor;
                 retiro.FechaMovimiento = DateTime.Now;
-                Saldo -= valor;
+                Saldo -= transaccion.Valor;
                 this.Movimientos.Add(retiro);
             }
             else

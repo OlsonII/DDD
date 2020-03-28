@@ -4,7 +4,7 @@ using Domain.Factory;
 
 namespace Domain.Test
 {
-    public class Tests
+    public class CuentaDeAhorroTest
     {
         [SetUp]
         public void Setup()
@@ -18,7 +18,7 @@ namespace Domain.Test
             cuenta.Numero = "111";
             cuenta.Nombre = "Ahorro Ejemplo";
             cuenta.Ciudad = "Valledupar";
-            cuenta.Consignar(50000, "Valledupar");
+            cuenta.Consignar(new Transaccion(50000, "Valledupar"));
             Assert.AreEqual(50000, cuenta.Saldo);
         }
 
@@ -29,9 +29,9 @@ namespace Domain.Test
             cuenta.Numero = "111";
             cuenta.Nombre = "Ahorro Ejemplo";
             cuenta.Ciudad = "Valledupar";
-            cuenta.Consignar(50000, "Valledupar");
-            cuenta.Retirar(20000);
-            cuenta.Consignar(10000, "Valledupar");
+            cuenta.Consignar(new Transaccion(50000, "Valledupar"));
+            cuenta.Retirar(new Transaccion(20000));
+            cuenta.Consignar(new Transaccion(10000, "Valledupar"));
             Assert.AreEqual(40000, cuenta.Saldo);
         }
 
@@ -42,8 +42,8 @@ namespace Domain.Test
             cuenta.Numero = "111";
             cuenta.Nombre = "Ahorro Ejemplo";
             cuenta.Ciudad = "Valledupar";
-            cuenta.Consignar(50000, "Valledupar");
-            cuenta.Retirar(30000);
+            cuenta.Consignar(new Transaccion(50000, "Valledupar"));
+            cuenta.Retirar(new Transaccion(30000));
             Assert.AreEqual(20000, cuenta.Saldo);
         }
 

@@ -28,8 +28,8 @@ namespace Domain.Test
             cuenta.Numero = "111";
             cuenta.Nombre = "Corriente Ejemplo";
             cuenta.Ciudad = "Valledupar";            
-            cuenta.Retirar(200000);
-            cuenta.Consignar(100000, "Valledupar");
+            cuenta.Retirar(new Transaccion(200000));
+            cuenta.Consignar(new Transaccion(100000, "Valledupar"));
             Assert.AreEqual(900000, cuenta.Saldo);
         }
 
@@ -40,7 +40,7 @@ namespace Domain.Test
             cuenta.Numero = "111";
             cuenta.Nombre = "Corriente Ejemplo";
             cuenta.Ciudad = "Valledupar";
-            cuenta.Retirar(300000);
+            cuenta.Retirar(new Transaccion(300000));
             Assert.AreEqual(700000, cuenta.Saldo);
         }
     }

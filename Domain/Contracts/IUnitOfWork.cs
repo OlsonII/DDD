@@ -9,7 +9,7 @@ namespace Domain.Contracts
     {
         ICuentaBancariaRepository CuentaBancariaRepository { get; }
 
-        IServicioInversionRepository CDTRepository { get; }
+        IServicioInversionRepository DepositoRepository { get; }
 
         int Commit();
     }
