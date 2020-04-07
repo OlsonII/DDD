@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20191026114352_Initial-Create")]
-    partial class InitialCreate
+    [Migration("20200407230304_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,12 +21,45 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Domain.Entities.CDT", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Periodo")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Saldo")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TasaInteres")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TipoDeposito")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CDT");
+                });
+
             modelBuilder.Entity("Domain.Entities.CuentaBancaria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ciudad")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -55,6 +88,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CDTId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CuentaBancariaId")
                         .HasColumnType("int");
 
@@ -68,6 +104,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CDTId");
 
                     b.HasIndex("CuentaBancariaId");
 
@@ -88,8 +126,22 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("CuentaCorriente");
                 });
 
+            modelBuilder.Entity("Domain.Entities.CuentaCredito", b =>
+                {
+                    b.HasBaseType("Domain.Entities.CuentaBancaria");
+
+                    b.Property<double>("Deuda")
+                        .HasColumnType("float");
+
+                    b.HasDiscriminator().HasValue("CuentaCredito");
+                });
+
             modelBuilder.Entity("Domain.Entities.MovimientoFinanciero", b =>
                 {
+                    b.HasOne("Domain.Entities.CDT", null)
+                        .WithMany("Movimientos")
+                        .HasForeignKey("CDTId");
+
                     b.HasOne("Domain.Entities.CuentaBancaria", "CuentaBancaria")
                         .WithMany("Movimientos")
                         .HasForeignKey("CuentaBancariaId");

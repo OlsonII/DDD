@@ -27,11 +27,11 @@ namespace Application
                 nuevoDeposito.Numero = request.Numero;
                 _unitOfWork.DepositoRepository.Add(nuevoDeposito);
                 _unitOfWork.Commit();
-                return new CrearDepositoResponse() { Mensaje = $"Se creó con exito la cuenta {nuevoDeposito.Numero}.", tipoDeDepositoCreado = request.TipoCuenta };
+                return new CrearDepositoResponse() { Mensaje = $"Se creó con exito el {request.TipoCuenta} No {nuevoDeposito.Numero}.", tipoDeDepositoCreado = request.TipoCuenta };
             }
             else
             {
-                return new CrearDepositoResponse() { Mensaje = $"El número de cuenta ya exite" };
+                return new CrearDepositoResponse() { Mensaje = $"El número de {request.TipoCuenta} ya exite" };
             }
         }
     }
@@ -40,7 +40,9 @@ namespace Application
     {
         public string Nombre { get; set; }
         public string TipoCuenta { get; set; }
-        public string Numero { get; set; }
+        public string Numero { get; set; }  
+        public double TasaDeInteres { get; set; }
+        public double Periodo { get; set; }
     }
     public class CrearDepositoResponse
     {

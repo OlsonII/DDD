@@ -14,10 +14,5 @@ namespace Domain.Entities
             Valor = valor;
             Ciudad = ciudad;
         }
-
-        public Transaccion(double valor)
-        {
-            Valor = valor;
-        }
     }
 }

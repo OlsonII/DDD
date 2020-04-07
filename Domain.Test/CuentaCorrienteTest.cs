@@ -43,7 +43,7 @@ namespace Domain.Test
             cuenta.Nombre = "Corriente Ejemplo";
             cuenta.Ciudad = "Valledupar";
             cuenta.Consignar(new Transaccion(100000, "Valledupar"));
-            cuenta.Retirar(new Transaccion(30000));
+            cuenta.Retirar(new Transaccion(30000, "Valledupar"));
             Assert.AreEqual(100000 - (30000 + (30000*4/1000)), cuenta.Saldo);
         }
     }

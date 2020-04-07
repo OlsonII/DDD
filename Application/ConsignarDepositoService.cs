@@ -28,10 +28,7 @@ namespace Application
             {
                 return new DepositarResponse() { Mensaje = $"Número de CDT No Válido." };
             }
-
         }
-
-
     }
 
     public class DepositarRequest 

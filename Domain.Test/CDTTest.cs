@@ -47,7 +47,7 @@ namespace Domain.Test
             cdt.Periodo = 5;
             cdt.TasaInteres = 0.06;
             cdt.Consignar(new Transaccion(1000000, "Valledupar"));
-            cdt.Retirar(new Transaccion(1000000));
+            cdt.Retirar(new Transaccion(1000000, "Valledupar"));
             Assert.AreEqual(0, cdt.Saldo);
         }
     }

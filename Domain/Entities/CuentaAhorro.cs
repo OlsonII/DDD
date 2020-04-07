@@ -46,11 +46,14 @@ namespace Domain.Entities
             int contador = 0;
             for(int i = 0; i<Movimientos.Count; i++)
             {
-                string mesMovimiento = Movimientos[i].FechaMovimiento.Month + "/" + Movimientos[i].FechaMovimiento.Year;
-                if (mesActual.Equals(mesMovimiento))
+                if(Movimientos[i].ValorConsignacion == 0)
                 {
-                    contador++;
-                }
+                    string mesMovimiento = Movimientos[i].FechaMovimiento.Month + "/" + Movimientos[i].FechaMovimiento.Year;
+                    if (mesActual.Equals(mesMovimiento))
+                    {
+                        contador++;
+                    }
+                }                
             }
             if (contador < 3) return true;
             return false;

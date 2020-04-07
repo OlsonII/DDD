@@ -20,7 +20,7 @@ namespace Application
             var CDT = _unitOfWork.DepositoRepository.FindFirstOrDefault(t => t.Numero == request.NumeroCDT);
             if (CDT != null)
             {
-                CDT.Retirar(new Transaccion(request.Valor));
+                CDT.Retirar(new Transaccion(request.Valor, request.Ciudad));
                 _unitOfWork.Commit();
                 return new RetirarCDTResponse() { Mensaje = $"Su deposito es de ${CDT.Saldo}." };
             }
@@ -28,13 +28,13 @@ namespace Application
             {
                 return new RetirarCDTResponse() { Mensaje = $"Número de CDT No Válido." };
             }
-        }
-        
+        }        
     }
 
     public class RetirarCDTRequest
     {
         public string NumeroCDT { get; set; }
+        public string Ciudad { get; set; }
         public double Valor { get; set; }
     }
 

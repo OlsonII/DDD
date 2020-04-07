@@ -11,6 +11,7 @@ namespace Domain.Entities
         public string Numero { get; set; }
         public double Saldo { get; protected set; }
         public int Periodo { get; set; }
+        public string TipoDeposito { get; set; }
         public double TasaInteres { get; set; }
 
         public List<MovimientoFinanciero> Movimientos { get; set; }

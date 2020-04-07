@@ -25,6 +25,7 @@ namespace Application
                 cuentaNueva = new CuentaBancariaFactory().Create(request.TipoCuenta);
                 cuentaNueva.Nombre = request.Nombre;
                 cuentaNueva.Numero = request.Numero;
+                cuentaNueva.Ciudad = request.Ciudad;
                 _unitOfWork.CuentaBancariaRepository.Add(cuentaNueva);
                 _unitOfWork.Commit();
                 return new CrearCuentaBancariaResponse() { Mensaje = $"Se creó con exito la cuenta {cuentaNueva.Numero}.", TipoDeCuentaCreado = request.TipoCuenta };
@@ -39,6 +40,7 @@ namespace Application
     {
         public string Nombre { get; set; }
         public string TipoCuenta { get; set; }
+        public string Ciudad { get; set; }
         public string Numero { get; set; }
     }
     public class CrearCuentaBancariaResponse

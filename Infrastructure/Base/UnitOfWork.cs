@@ -14,9 +14,9 @@ namespace Infrastructure.Base
 
         private ICuentaBancariaRepository _cuentaBancariaRepository;
 
-        private IServicioInversionRepository _depositoRepository;
+        private IDepositoRepository _depositoRepository;
         public ICuentaBancariaRepository CuentaBancariaRepository { get { return _cuentaBancariaRepository ?? (_cuentaBancariaRepository = new CuentaBancariaRepository(_dbContext)); } }
-        public IServicioInversionRepository DepositoRepository { get { return _depositoRepository ?? (_depositoRepository = new DepositoRepository(_dbContext)); } }
+        public IDepositoRepository DepositoRepository { get { return _depositoRepository ?? (_depositoRepository = new DepositoRepository(_dbContext)); } }
 
 
         public UnitOfWork(IDbContext context)

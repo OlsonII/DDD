@@ -8,7 +8,7 @@ using Infrastructure.Base;
 
 namespace Infrastructure.Repositories
 {
-    public class DepositoRepository : GenericRepository<Deposito>, IServicioInversionRepository
+    public class DepositoRepository : GenericRepository<Deposito>, IDepositoRepository
     {
         public DepositoRepository(IDbContext context)
               : base(context)

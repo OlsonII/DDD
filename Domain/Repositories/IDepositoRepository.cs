@@ -6,7 +6,7 @@ using Domain.Entities;
 
 namespace Domain.Repositories
 {
-    public interface IServicioInversionRepository : IGenericRepository<Deposito>
+    public interface IDepositoRepository : IGenericRepository<Deposito>
     {
     }
 }
