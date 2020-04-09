@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Base;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Infrastructure
         public DbSet<CuentaCorriente> CuentasCorriente { get; set; }
         public DbSet<CuentaCredito> CuentasCredito { get; set; }
         public DbSet<CDT> CDT { get; set; }
+        public DbSet<Fiducia> Fiducias { get; set; }
     }
 }

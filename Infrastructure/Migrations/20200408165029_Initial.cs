@@ -44,6 +44,24 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Fiducias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(nullable: true),
+                    Numero = table.Column<string>(nullable: true),
+                    Saldo = table.Column<double>(nullable: false),
+                    Periodo = table.Column<int>(nullable: false),
+                    TipoDeposito = table.Column<string>(nullable: true),
+                    TasaInteres = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fiducias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MovimientoFinanciero",
                 columns: table => new
                 {
@@ -53,7 +71,8 @@ namespace Infrastructure.Migrations
                     ValorRetiro = table.Column<double>(nullable: false),
                     ValorConsignacion = table.Column<double>(nullable: false),
                     FechaMovimiento = table.Column<DateTime>(nullable: false),
-                    CDTId = table.Column<int>(nullable: true)
+                    CDTId = table.Column<int>(nullable: true),
+                    FiduciaId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,6 +89,12 @@ namespace Infrastructure.Migrations
                         principalTable: "CuentaBancaria",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovimientoFinanciero_Fiducias_FiduciaId",
+                        column: x => x.FiduciaId,
+                        principalTable: "Fiducias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -81,6 +106,11 @@ namespace Infrastructure.Migrations
                 name: "IX_MovimientoFinanciero_CuentaBancariaId",
                 table: "MovimientoFinanciero",
                 column: "CuentaBancariaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovimientoFinanciero_FiduciaId",
+                table: "MovimientoFinanciero",
+                column: "FiduciaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -93,6 +123,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CuentaBancaria");
+
+            migrationBuilder.DropTable(
+                name: "Fiducias");
         }
     }
 }

@@ -79,6 +79,36 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("CuentaBancaria");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Fiducia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Periodo")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Saldo")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TasaInteres")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TipoDeposito")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fiducias");
+                });
+
             modelBuilder.Entity("Domain.Entities.MovimientoFinanciero", b =>
                 {
                     b.Property<int>("Id")
@@ -95,6 +125,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("FechaMovimiento")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FiduciaId")
+                        .HasColumnType("int");
+
                     b.Property<double>("ValorConsignacion")
                         .HasColumnType("float");
 
@@ -106,6 +139,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CDTId");
 
                     b.HasIndex("CuentaBancariaId");
+
+                    b.HasIndex("FiduciaId");
 
                     b.ToTable("MovimientoFinanciero");
                 });
@@ -143,6 +178,10 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.CuentaBancaria", "CuentaBancaria")
                         .WithMany("Movimientos")
                         .HasForeignKey("CuentaBancariaId");
+
+                    b.HasOne("Domain.Entities.Fiducia", null)
+                        .WithMany("Movimientos")
+                        .HasForeignKey("FiduciaId");
                 });
 #pragma warning restore 612, 618
         }
